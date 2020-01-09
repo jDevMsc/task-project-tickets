@@ -2,11 +2,17 @@ package org.tickets.germes.app.model.entity.base;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import org.tickets.germes.app.model.entity.person.Account;
 
 /**
  * Base class for all business entities
  */
+@MappedSuperclass
 public abstract class AbstractEntity {
 	/**
 	 * Entity identifier
@@ -33,6 +39,8 @@ public abstract class AbstractEntity {
 	 */
 	private Account modifiedBy;
 
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -41,6 +49,7 @@ public abstract class AbstractEntity {
 		this.id = id;
 	}
 
+	@Column(name = "CREATED_AT", nullable = false, updatable = false)
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -49,6 +58,7 @@ public abstract class AbstractEntity {
 		this.createdAt = createdAt;
 	}
 
+	@Column(name = "MODIFIED_AT", insertable = false)
 	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}

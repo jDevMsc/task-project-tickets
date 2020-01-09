@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import org.tickets.germes.app.infra.util.CommonUtil;
 import org.tickets.germes.app.model.entity.transport.TransportType;
 import org.tickets.germes.app.model.entity.base.AbstractEntity;
@@ -37,6 +38,7 @@ public class City extends AbstractEntity {
 		this.name = name;
 	}
 
+	@Column(name = "NAME", nullable = false, length = 32)
 	public String getName() {
 		return name;
 	}
@@ -53,6 +55,7 @@ public class City extends AbstractEntity {
 		this.district = district;
 	}
 
+	@Column(name = "REGION", nullable = false, length = 32)
 	public String getRegion() {
 		return region;
 	}
