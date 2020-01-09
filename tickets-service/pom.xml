@@ -6,6 +6,7 @@
 		<artifactId>tickets</artifactId>
 		<version>0.0.1</version>
 	</parent>
+
 	<artifactId>tickets-service</artifactId>
 	<dependencyManagement>
 		<dependencies>
@@ -18,10 +19,16 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.tickets</groupId>
 			<artifactId>tickets-model</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.tickets</groupId>
+			<artifactId>tickets-persistence</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
@@ -64,5 +71,6 @@
 			<version>${powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 </project>

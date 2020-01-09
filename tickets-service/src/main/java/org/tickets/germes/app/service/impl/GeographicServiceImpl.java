@@ -12,58 +12,41 @@ import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.model.entity.geography.Station;
 import org.tickets.germes.app.model.search.criteria.StationCriteria;
 import org.tickets.germes.app.model.search.criteria.range.RangeCriteria;
+import org.tickets.germes.app.persistance.repository.CityRepository;
+import org.tickets.germes.app.persistance.repository.inmemory.InMemoryCityRepository;
 import org.tickets.germes.app.service.GeographicService;
 
 /**
  * Default implementation of the  GeographicService
  */
 public class GeographicServiceImpl implements GeographicService {
-	/**
-	 * Internal list of cities
-	 */
-	private final List<City> cities;
-
-	/**
-	 * Auto-increment counter for entity id generation
-	 */
-	private int counter = 0;
-
-	private int stationCounter = 0;
+	private final CityRepository cityRepository;
 
 	public GeographicServiceImpl() {
-		cities = new ArrayList<City>();
+		cityRepository = new InMemoryCityRepository();
 	}
 
 	@Override
 	public List<City> findCities() {
-		return CommonUtil.getSafeList(cities);
+		return cityRepository.findAll();
 	}
 
 	@Override
 	public void saveCity(City city) {
-		if (!cities.contains(city)) {
-			city.setId(++counter);
-			cities.add(city);
-		}
-		city.getStations().forEach((station) -> {
-			if (station.getId() == 0) {
-				station.setId(++stationCounter);
-			}
-		});
+		cityRepository.save(city);
 	}
 
 	@Override
 	public Optional<City> findCitiyById(final int id) {
-		return cities.stream().filter((city) -> city.getId() == id).findFirst();
+		return Optional.ofNullable(cityRepository.findById(id));
 	}
 
 	@Override
 	public List<Station> searchStations(final StationCriteria criteria, final RangeCriteria rangeCriteria) {
 		Set<Station> stations = new HashSet<>();
-		for (City city : cities) {
-			stations.addAll(city.getStations());
-		}
 
-		return stations.stream().filter((station) -> station.match(criteria)).collect(Collectors.toList());
+		cityRepository.findAll().forEach(city -> stations.addAll(city.getStations()));
+
+		return stations.stream().filter(station -> station.match(criteria)).collect(Collectors.toList());
 	}
 }

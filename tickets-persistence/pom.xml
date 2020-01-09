@@ -6,4 +6,12 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>tickets-persistence</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.tickets</groupId>
+      <artifactId>tickets-model</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+  </dependencies>
 </project>
