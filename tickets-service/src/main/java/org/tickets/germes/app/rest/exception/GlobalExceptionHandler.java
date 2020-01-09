@@ -21,6 +21,8 @@ public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
 		SERVER_ERROR = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	}
 
+	//log exception and return code
+
 	@Override
 	public Response toResponse(Exception ex) {
 		LOGGER.error(ex.getMessage(), ex);

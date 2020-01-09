@@ -49,7 +49,6 @@ public class CityResource extends BaseResource {
 	}
 	/**
 	 * Returns all the existing cities
-	 * @return
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -59,7 +58,6 @@ public class CityResource extends BaseResource {
 	}
 	/**
 	 * Saves new city instance
-	 * @return
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -68,7 +66,6 @@ public class CityResource extends BaseResource {
 	}
 	/**
 	 * Returns city with specified identifier
-	 * @return
 	 */
 	@Path("/{cityId}")
 	@GET
