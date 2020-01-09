@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -39,10 +40,11 @@ public class CityResource extends BaseResource {
 	 */
 	private final Transformer transformer;
 
-	public CityResource() {
-		transformer = new SimpleDTOTransformer();
+	@Inject
+	public CityResource(GeographicService service, Transformer transformer) {
+		this.transformer = transformer;
 
-		service = new GeographicServiceImpl();
+		this.service = service;
 		City city = new City("Odessa");
 		city.addStation(TransportType.AUTO);
 		service.saveCity(city);
