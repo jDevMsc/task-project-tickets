@@ -2,6 +2,13 @@ package org.tickets.germes.app.model.entity.geography;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import org.apache.commons.lang3.StringUtils;
 import org.tickets.germes.app.model.entity.transport.TransportType;
 import org.tickets.germes.app.model.search.criteria.StationCriteria;
@@ -29,10 +36,13 @@ public class Station extends AbstractEntity {
 		this.transportType = Objects.requireNonNull(transportType);
 	}
 
+	@ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+	@JoinColumn(name = "CITY_ID")
 	public City getCity() {
 		return city;
 	}
 
+	@Embedded
 	public Address getAddress() {
 		return address;
 	}
@@ -49,6 +59,7 @@ public class Station extends AbstractEntity {
 		this.phone = phone;
 	}
 
+	@Embedded
 	public Coordinate getCoordinate() {
 		return coordinate;
 	}
@@ -57,6 +68,8 @@ public class Station extends AbstractEntity {
 		this.coordinate = coordinate;
 	}
 
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false, name="TRANSPORT_TYPE")
 	public TransportType getTransportType() {
 		return transportType;
 	}

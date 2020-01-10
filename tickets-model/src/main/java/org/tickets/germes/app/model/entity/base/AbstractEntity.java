@@ -3,10 +3,13 @@ package org.tickets.germes.app.model.entity.base;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import org.tickets.germes.app.model.entity.person.Account;
 
 /**
@@ -14,95 +17,104 @@ import org.tickets.germes.app.model.entity.person.Account;
  */
 @MappedSuperclass
 public abstract class AbstractEntity {
-	/**
-	 * Entity identifier
-	 */
-	private int id;
-	
-	/**
-	 * Timestamp of entity creation
-	 */
-	private LocalDateTime createdAt;
-	
-	/**
-	 * Timestamp of entity last modification
-	 */
-	private LocalDateTime modifiedAt;
-	
-	/**
-	 * Person who created specific entity
-	 */
-	private Account createdBy;
-	
-	/**
-	 * Last person who modified entity 
-	 */
-	private Account modifiedBy;
 
-	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	public int getId() {
-		return id;
-	}
+    /**
+     * Entity identifier
+     */
+    private int id;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    /**
+     * Timestamp of entity creation
+     */
+    private LocalDateTime createdAt;
 
-	@Column(name = "CREATED_AT", nullable = false, updatable = false)
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
+    /**
+     * Timestamp of entity last modification
+     */
+    private LocalDateTime modifiedAt;
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
+    /**
+     * Person who created specific entity
+     */
+    private Account createdBy;
 
-	@Column(name = "MODIFIED_AT", insertable = false)
-	public LocalDateTime getModifiedAt() {
-		return modifiedAt;
-	}
+    /**
+     * Last person who modified entity
+     */
+    private Account modifiedBy;
 
-	public void setModifiedAt(LocalDateTime modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
+        return id;
+    }
 
-	public Account getCreatedBy() {
-		return createdBy;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setCreatedBy(Account createdBy) {
-		this.createdBy = createdBy;
-	}
+    @Column(name = "CREATED_AT", nullable = false, updatable = false)
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-	public Account getModifiedBy() {
-		return modifiedBy;
-	}
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setModifiedBy(Account modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
+    @Column(name = "MODIFIED_AT", insertable = false)
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AbstractEntity other = (AbstractEntity) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
-	
+    @OneToOne(fetch = FetchType.LAZY, cascade = {})
+    @JoinColumn(name = "CREATED_BY", updatable = false)
+    public Account getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Account createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {})
+    @JoinColumn(name = "MODIFIED_BY", insertable = false)
+    public Account getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(Account modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AbstractEntity other = (AbstractEntity) obj;
+        if (id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -4,96 +4,100 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import org.tickets.germes.app.infra.util.CommonUtil;
 import org.tickets.germes.app.model.entity.transport.TransportType;
 import org.tickets.germes.app.model.entity.base.AbstractEntity;
 
 /**
- *Locality that contains transport stations
+ * Locality that contains transport stations
  */
 public class City extends AbstractEntity {
-	private String name;
-	
-	/**
-	 * Name of the district where city is placed
-	 */
-	private String district;
-	
-	/**
-	 * Name of the region where district is located.
-	 */
-	private String region;
-	
-	/**
-	 * Set of transport stations that is linked to this 
-	 * locality
-	 */
-	private Set<Station> stations;
-	
-	public City() {
-	}	
 
-	public City(final String name) {
-		this.name = name;
-	}
+    private String name;
 
-	@Column(name = "NAME", nullable = false, length = 32)
-	public String getName() {
-		return name;
-	}
+    /**
+     * Name of the district where city is placed
+     */
+    private String district;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Name of the region where district is located.
+     */
+    private String region;
 
-	public String getDistrict() {
-		return district;
-	}
+    /**
+     * Set of transport stations that is linked to this locality
+     */
+    private Set<Station> stations;
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
+    public City() {
+    }
 
-	@Column(name = "REGION", nullable = false, length = 32)
-	public String getRegion() {
-		return region;
-	}
+    public City(final String name) {
+        this.name = name;
+    }
 
-	public void setRegion(String region) {
-		this.region = region;
-	}
+    @Column(name = "NAME", nullable = false, length = 32)
+    public String getName() {
+        return name;
+    }
 
-	public Set<Station> getStations() {		
-		return CommonUtil.getSafeSet(stations);
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setStations(Set<Station> stations) {
-		this.stations = stations;
-	}
+    public String getDistrict() {
+        return district;
+    }
 
-	/**
-	 * Adds specified station to the city station list
-	 */
-	public Station addStation(final TransportType transportType) {
-		if(stations == null) {
-			stations = new HashSet<>();
-		}
-		Station station = new Station(this, transportType);
-		stations.add(station);
-		
-		return station;
-	}
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 
-	/**
-	 * Removes specified station from city station list
-	 */
-	public void removeStation(Station station) {
-		Objects.requireNonNull(station, "station parameter is not initialized");
-		if(stations == null) {
-			return;
-		}
-		stations.remove(station);
-	}
+    @Column(name = "REGION", nullable = false, length = 32)
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city", orphanRemoval = true)
+    public Set<Station> getStations() {
+        return CommonUtil.getSafeSet(stations);
+    }
+
+    public void setStations(Set<Station> stations) {
+        this.stations = stations;
+    }
+
+    /**
+     * Adds specified station to the city station list
+     */
+    public Station addStation(final TransportType transportType) {
+        if (stations == null) {
+            stations = new HashSet<>();
+        }
+        Station station = new Station(this, transportType);
+        stations.add(station);
+
+        return station;
+    }
+
+    /**
+     * Removes specified station from city station list
+     */
+    public void removeStation(Station station) {
+        Objects.requireNonNull(station, "station parameter is not initialized");
+        if (stations == null) {
+            return;
+        }
+        stations.remove(station);
+    }
 
 }
