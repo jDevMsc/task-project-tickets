@@ -43,10 +43,11 @@ public class CityResource extends BaseResource {
 	@Inject
 	public CityResource(GeographicService service, Transformer transformer) {
 		this.transformer = transformer;
-
 		this.service = service;
 		City city = new City("Odessa");
 		city.addStation(TransportType.AUTO);
+		city.setDistrict("Odessa");
+		city.setRegion("Odessa");
 		service.saveCity(city);
 	}
 	/**

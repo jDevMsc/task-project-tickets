@@ -11,8 +11,8 @@ public class PersistenceException extends AppException {
 		super(message, cause);
 	}
 
-	public PersistenceException(String message) {
-		super(message);
+	public PersistenceException(Throwable cause) {
+		super(cause);
 	}
 
 }

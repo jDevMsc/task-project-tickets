@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import org.tickets.germes.app.model.entity.person.Account;
 
 /**
@@ -17,6 +18,7 @@ import org.tickets.germes.app.model.entity.person.Account;
  */
 @MappedSuperclass
 public abstract class AbstractEntity {
+    public static final String FIELD_CREATED_AT = "createdAt";
 
     /**
      * Entity identifier
@@ -51,6 +53,13 @@ public abstract class AbstractEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (getId() == 0) {
+            setCreatedAt(LocalDateTime.now());
+        }
     }
 
     @Column(name = "CREATED_AT", nullable = false, updatable = false)

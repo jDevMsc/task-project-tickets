@@ -4,6 +4,7 @@ import java.util.List;
 import javax.inject.Inject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.tickets.germes.app.model.entity.base.AbstractEntity;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
 import org.tickets.germes.app.persistance.repository.CityRepository;
@@ -14,6 +15,7 @@ public class HibernateCityRepository implements CityRepository {
 	public HibernateCityRepository(SessionFactoryBuilder builder) {
 		sessionFactory = builder.getSessionFactory();
 	}
+
 	@Override
 	public void save(City city) {
 		try (Session session = sessionFactory.openSession()) {

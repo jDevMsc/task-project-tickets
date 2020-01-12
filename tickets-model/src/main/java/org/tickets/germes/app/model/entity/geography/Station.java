@@ -36,6 +36,13 @@ public class Station extends AbstractEntity {
 		this.transportType = Objects.requireNonNull(transportType);
 	}
 
+	public void setCity(City city) {
+		this.city = city;
+	}
+	public void setTransportType(TransportType transportType) {
+		this.transportType = transportType;
+	}
+
 	@ManyToOne(cascade = {}, fetch = FetchType.EAGER)
 	@JoinColumn(name = "CITY_ID")
 	public City getCity() {
