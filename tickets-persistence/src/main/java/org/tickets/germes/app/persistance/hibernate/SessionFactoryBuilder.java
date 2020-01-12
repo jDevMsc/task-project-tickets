@@ -3,12 +3,15 @@ package org.tickets.germes.app.persistance.hibernate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Set;
 import javax.annotation.PreDestroy;
+import javax.persistence.Entity;
 import javax.persistence.PersistenceException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+import org.reflections.Reflections;
 import org.tickets.germes.app.model.entity.geography.Address;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.model.entity.geography.Coordinate;
@@ -27,12 +30,12 @@ public class SessionFactoryBuilder {
 		ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(loadProperties()).build();
 
 		MetadataSources sources = new MetadataSources(registry);
+		
+		//define the base package for search and set search criteria
+		Reflections reflections = new Reflections("org.itsimulator.germes.app.model.entity");
 
-		sources.addAnnotatedClass(City.class);
-		sources.addAnnotatedClass(Station.class);
-		sources.addAnnotatedClass(Coordinate.class);
-		sources.addAnnotatedClass(Address.class);
-		sources.addAnnotatedClass(Account.class);
+		Set<Class<?>> entityClasses = reflections.getTypesAnnotatedWith(Entity.class);
+		entityClasses.forEach(sources::addAnnotatedClass);
 
 		org.hibernate.boot.SessionFactoryBuilder builder = sources.getMetadataBuilder().build().
 			getSessionFactoryBuilder().applyInterceptor(new TimestampInterceptor());
