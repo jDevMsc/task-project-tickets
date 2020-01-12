@@ -5,6 +5,6 @@ package org.tickets.germes.app.model.entity.transport;
  * that we support in the application
  */
 public enum TransportType {
-	AUTO /*For example, bus*/, RAILWAY /* For example, train*/, AVIA /*For example, plane*/;
+	AUTO , RAILWAY , AVIA ;
 
 }

@@ -8,6 +8,11 @@ import org.tickets.germes.app.model.entity.geography.Station;
 import org.tickets.germes.app.model.entity.transport.TransportType;
 import org.tickets.germes.app.model.search.criteria.StationCriteria;
 import org.tickets.germes.app.model.search.criteria.range.RangeCriteria;
+import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
+import org.tickets.germes.app.persistance.repository.CityRepository;
+import org.tickets.germes.app.persistance.repository.StationRepository;
+import org.tickets.germes.app.persistance.repository.hibernate.HibernateCityRepository;
+import org.tickets.germes.app.persistance.repository.hibernate.HibernateStationRepository;
 import org.tickets.germes.app.persistance.repository.inmemory.InMemoryCityRepository;
 import org.tickets.germes.app.service.impl.GeographicServiceImpl;
 import org.junit.Before;
@@ -25,7 +30,10 @@ public class GeographicServiceImplTest {
 
 	@Before
 	public void setup() {
-		service = new GeographicServiceImpl(new InMemoryCityRepository());
+		SessionFactoryBuilder builder = new SessionFactoryBuilder();
+		CityRepository repository = new HibernateCityRepository(builder);
+		StationRepository stationRepository = new HibernateStationRepository(builder);
+		service = new GeographicServiceImpl(repository, stationRepository);
 	}
 
 	@Test

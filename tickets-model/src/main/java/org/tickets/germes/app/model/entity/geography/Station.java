@@ -20,6 +20,10 @@ import org.tickets.germes.app.model.entity.base.AbstractEntity;
  *
  */
 public class Station extends AbstractEntity {
+	public static final String FIELD_TRANSPORT_TYPE = "transportType";
+
+	public static final String FIELD_CITY = "city";
+
 	private City city;
 	
 	private Address address;

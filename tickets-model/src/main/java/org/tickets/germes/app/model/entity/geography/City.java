@@ -16,6 +16,7 @@ import org.tickets.germes.app.model.entity.base.AbstractEntity;
  * Locality that contains transport stations
  */
 public class City extends AbstractEntity {
+    public static final String FIELD_NAME = "name";
 
     private String name;
 
