@@ -20,16 +20,41 @@
     <log4j.version>2.3</log4j.version>
     <powermock.version>1.6.4</powermock.version>
     <hibernate.version>5.1.0.Final</hibernate.version>
+    <el.version>2.2.4</el.version>
   </properties>
 
   <dependencies>
+    <!--validator-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.0.17.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.el</groupId>
+      <artifactId>javax.el-api</artifactId>
+      <version>${el.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>javax.el</artifactId>
+      <version>${el.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!--  poll-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-c3p0</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>1.4.191</version>
       <scope>test</scope>
     </dependency>
-       <!--for test		-->
+    <!--for test		-->
 
     <dependency>
       <groupId>org.hibernate</groupId>

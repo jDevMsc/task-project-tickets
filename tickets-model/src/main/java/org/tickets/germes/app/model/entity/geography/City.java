@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.tickets.germes.app.infra.util.CommonUtil;
 import org.tickets.germes.app.model.entity.transport.TransportType;
 import org.tickets.germes.app.model.entity.base.AbstractEntity;
@@ -42,7 +44,9 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
-    @Column(name = "NAME", nullable = false, length = 32)
+    @NotNull
+    @Size(min = 2, max = 32)
+    @Column(name = "NAME")
     public String getName() {
         return name;
     }

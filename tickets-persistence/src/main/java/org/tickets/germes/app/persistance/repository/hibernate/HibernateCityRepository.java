@@ -4,6 +4,7 @@ import java.util.List;
 import javax.inject.Inject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.tickets.germes.app.model.entity.base.AbstractEntity;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
@@ -16,12 +17,21 @@ public class HibernateCityRepository implements CityRepository {
 		sessionFactory = builder.getSessionFactory();
 	}
 
-	@Override
-	public void save(City city) {
-		try (Session session = sessionFactory.openSession()) {
-			session.saveOrUpdate(city);
-		}
-	}
+    @Override
+    public void save(City city) {
+        Transaction tx = null;
+        try (Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
+            session.saveOrUpdate(city);
+            tx.commit();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage() + " " + ex);
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+    }
+
 
 	@Override
 	public City findById(int cityId) {

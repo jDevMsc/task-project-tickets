@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import org.tickets.germes.app.infra.exception.flow.ValidationException;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.model.entity.geography.Station;
 import org.tickets.germes.app.model.entity.transport.TransportType;
@@ -178,7 +179,7 @@ public class GeographicServiceImplTest {
 		assertEquals(cities.size(), cityCount + threadCount * batchCount);
 	}
 	/**
-	 * Change 1 entries in 200 threads
+	 * Change 1 entries in 200 threadsGeographicServiceImpl
 	 */
 	@Test
 	public void testSaveOneCityConcurrentlySuccess() {
@@ -223,5 +224,47 @@ public class GeographicServiceImplTest {
 		city.setRegion("Ivanovo");
 
 		return city;
+	}
+
+	@Test
+	public void testSaveCityMissingNameValidationExceptionThrown() {
+		try {
+			City city = new City();
+			city.setDistrict("Ivanovo");
+			city.setRegion("Ivanovo");
+			service.saveCity(city);
+
+			fail("City name validation failed");
+		} catch (ValidationException ex) {
+			assertTrue(ex.getMessage().contains("name:may not be null"));
+		}
+	}
+
+	@Test
+	public void testSaveCityNameTooShortValidationExceptionThrown() {
+		try {
+			City city = new City("N");
+			city.setDistrict("Ivanovo");
+			city.setRegion("Ivanovo");
+			service.saveCity(city);
+
+			fail("City name validation failed");
+		} catch (ValidationException ex) {
+			assertTrue(ex.getMessage().contains("name:size must be between 2 and 32"));
+		}
+	}
+
+	@Test
+	public void testSaveCityNameTooLongValidationExceptionThrown() {
+		try {
+			City city = new City("N1234567823456789012345678901234567890");
+			city.setDistrict("Ivanovo");
+			city.setRegion("Ivanovo");
+			service.saveCity(city);
+
+			fail("City name validation failed");
+		} catch (ValidationException ex) {
+			assertTrue(ex.getMessage().contains("name:size must be between 2 and 32"));
+		}
 	}
 }

@@ -8,6 +8,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import org.tickets.germes.app.infra.exception.validation.ValidationException;
 import org.tickets.germes.app.infra.util.CommonUtil;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.model.entity.geography.Station;
@@ -27,11 +32,16 @@ public class GeographicServiceImpl implements GeographicService {
 
 	private final StationRepository stationRepository;
 
+	private final Validator validator;
+
 	@Inject
 	public GeographicServiceImpl(CityRepository cityRepository,
 		StationRepository stationRepository) {
 		this.cityRepository = cityRepository;
 		this.stationRepository = stationRepository;
+
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		validator = factory.getValidator();
 	}
 
 	@Override
@@ -41,6 +51,13 @@ public class GeographicServiceImpl implements GeographicService {
 
 	@Override
 	public void saveCity(City city) {
+		/**
+		 * 		Validator returns a list of violated rules for  analysis.
+		 */
+		Set<ConstraintViolation<City>> constraintViolations = validator.validate(city);
+		if(!constraintViolations.isEmpty()) {
+			throw new ValidationException("City validation failure", constraintViolations);
+		}
 		cityRepository.save(city);
 	}
 
