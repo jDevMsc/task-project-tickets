@@ -13,6 +13,11 @@ public interface CityRepository {
     void save(City city);
 
     /**
+     * Saves specified cities
+     */
+    void saveAll(List<City> cities);
+
+    /**
      * Returns city . If no city exists with  null is returned
      */
     City findById(int cityId);

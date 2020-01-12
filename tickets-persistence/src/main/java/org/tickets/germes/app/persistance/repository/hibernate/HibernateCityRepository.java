@@ -13,26 +13,52 @@ import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
 import org.tickets.germes.app.persistance.repository.CityRepository;
 
 public class HibernateCityRepository implements CityRepository {
+
 	private final SessionFactory sessionFactory;
+
 	@Inject
 	public HibernateCityRepository(SessionFactoryBuilder builder) {
 		sessionFactory = builder.getSessionFactory();
 	}
 
-    @Override
-    public void save(City city) {
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
-            session.saveOrUpdate(city);
-            tx.commit();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage() + " " + ex);
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
-    }
+	@Override
+	public void save(City city) {
+		Transaction tx = null;
+		try (Session session = sessionFactory.openSession()) {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(city);
+			tx.commit();
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage() + " " + ex);
+			if (tx != null) {
+				tx.rollback();
+			}
+		}
+	}
+
+	@Override
+	public void saveAll(List<City> cities) {
+		int batchSize = sessionFactory.getSessionFactoryOptions().getJdbcBatchSize();
+		try (Session session = sessionFactory.openSession()) {
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				for (int i = 0; i < cities.size(); i++) {
+					session.persist(cities.get(i));
+					if (i % batchSize == 0 || i == cities.size() - 1) {
+						session.flush();
+						session.clear();
+					}
+				}
+				tx.commit();
+			} catch (Exception ex) {
+				System.out.println(ex.getMessage() + " " + ex);
+				if (tx != null) {
+					tx.rollback();
+				}
+			}
+		}
+	}
 
 
 	@Override
@@ -72,10 +98,11 @@ public class HibernateCityRepository implements CityRepository {
 				System.out.printf("Deleted %d cities", deleted);
 				tx.commit();
 			} catch (Exception ex) {
-				System.out.println(ex.getMessage()+ " " + ex);
+				System.out.println(ex.getMessage() + " " + ex);
 				if (tx != null) {
 					tx.rollback();
 				}
 			}
 		}
+	}
 }

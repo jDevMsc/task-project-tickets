@@ -55,6 +55,11 @@ public class InMemoryCityRepository implements CityRepository {
 	}
 
 	@Override
+	public void saveAll(List<City> cities) {
+
+	}
+
+	@Override
 	public City findById(final int id) {
 		return cities.stream().filter(city -> city.getId() == id).findFirst().orElse(null);
 	}	
