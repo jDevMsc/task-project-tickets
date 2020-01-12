@@ -23,8 +23,15 @@ public interface CityRepository {
     void delete(int cityId);
 
     /**
+     * Deletes all the cities
+     */
+    void deleteAll();
+
+    /**
      * Returns all the cities
      */
     List<City> findAll();
+
+
 
 }

@@ -33,6 +33,10 @@ public class InMemoryCityRepository implements CityRepository {
 	}
 
 	@Override
+	public void deleteAll() {
+	}
+
+	@Override
 	public List<City> findAll() {
 		return CommonUtil.getSafeList(cities);
 	}

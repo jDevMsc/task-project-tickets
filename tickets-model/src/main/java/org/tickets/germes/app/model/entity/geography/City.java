@@ -6,8 +6,11 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.tickets.germes.app.infra.util.CommonUtil;
@@ -17,8 +20,13 @@ import org.tickets.germes.app.model.entity.base.AbstractEntity;
 /**
  * Locality that contains transport stations
  */
+@Table(name = "CITY")
+@Entity
+@NamedQuery(name=City.QUERY_DELETE_ALL, query="delete from City")
 public class City extends AbstractEntity {
     public static final String FIELD_NAME = "name";
+
+    public static final String QUERY_DELETE_ALL = "deleteCities";
 
     private String name;
 

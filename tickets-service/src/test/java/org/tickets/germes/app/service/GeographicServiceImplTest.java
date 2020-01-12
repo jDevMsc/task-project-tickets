@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import org.junit.AfterClass;
 import org.tickets.germes.app.infra.exception.flow.ValidationException;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.model.entity.geography.Station;
@@ -266,5 +267,11 @@ public class GeographicServiceImplTest {
 		} catch (ValidationException ex) {
 			assertTrue(ex.getMessage().contains("name:size must be between 2 and 32"));
 		}
+	}
+
+	@AfterClass
+	public static void tearDown() {
+		executorService.shutdownNow();
+		service.deleteCities();
 	}
 }

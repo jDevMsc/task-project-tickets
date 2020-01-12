@@ -4,11 +4,14 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.tickets.germes.app.model.entity.transport.TransportType;
 import org.tickets.germes.app.model.search.criteria.StationCriteria;
@@ -19,10 +22,13 @@ import org.tickets.germes.app.model.entity.base.AbstractEntity;
  * of transport. Multiple stationts compose route of the trip.  
  *
  */
+@Table(name = "STATION")
+@Entity
+@NamedQuery(name = Station.QUERY_DELETE_ALL, query = "delete from Station")
 public class Station extends AbstractEntity {
 	public static final String FIELD_TRANSPORT_TYPE = "transportType";
-
 	public static final String FIELD_CITY = "city";
+	public static final String QUERY_DELETE_ALL = "deleteStations";
 
 	private City city;
 	
