@@ -1,5 +1,8 @@
 package org.tickets.germes.app.rest.service.config;
 
+import io.swagger.annotations.Contact;
+import io.swagger.annotations.Info;
+import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
@@ -13,6 +16,8 @@ import org.tickets.germes.app.config.ComponentFeature;
 /**
  * REST web-service configuration for Jersey
  */
+@SwaggerDefinition(info = @Info(description = "Booking and purchasing API definition", title = "Tickets project", version = "0.7.4",
+    contact = @Contact(email = "test@gmail.com", name = "Ivan Ivanov", url = "http://localhost.com")))
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         super(ComponentFeature.class);

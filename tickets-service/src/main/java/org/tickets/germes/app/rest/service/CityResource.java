@@ -1,5 +1,9 @@
 package org.tickets.germes.app.rest.service;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +32,7 @@ import org.tickets.germes.app.service.transform.impl.SimpleDTOTransformer;
  *  CityResource is REST web-service that handles city-related requests
  */
 @Path("/cities")
+@Api(value="cities")
 public class CityResource extends BaseResource {
 
 	/**
@@ -55,6 +60,7 @@ public class CityResource extends BaseResource {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Returns all the existing cities")
 	public List<CityDTO> findCities() {
 		return service.findCities().stream().map((city) -> transformer.transform(city, CityDTO.class))
 				.collect(Collectors.toList());
@@ -69,10 +75,15 @@ public class CityResource extends BaseResource {
 	}
 	/**
 	 * Returns city with specified identifier
+	 *  @ApiParam - allows you to describe the parameters of services
+	 *  @ApiResponses - error processing
 	 */
 	@Path("/{cityId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Returns existing city by its identifier")
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid city identifier"),
+		@ApiResponse(code = 404, message = "Identifier of the non-existing city") })
 	public Response findCityById(@PathParam("cityId") final String cityId) {
 		if(!NumberUtils.isNumber(cityId)) {
 			return BAD_REQUEST;
