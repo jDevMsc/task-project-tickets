@@ -1,7 +1,7 @@
 {
-  "name": "tickets-js",
+  "name": "germes-js",
   "authors": [
-    "Foxminded test project"
+    "Test project fox minded"
   ],
   "description": "",
   "main": "",
@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.5.8"
+    "angular": "1.5.8",
+    "angular-resource": "^1.5.8"
   }
 }

@@ -1,14 +1,4 @@
-//take data from server
-app.controller('CityCtrl', [ '$scope', function($scope) {
-	   $scope.cities = [{
-		   'name' : 'Ivanov',
-		   'district' : '',
-	       'region' : 'Ivanov'
-	   },
-	   {
-		   'name' : 'Pushkino',
-		   'district' : 'Pushkino',
-	       'region' : 'Moscow'
-	   }];
+app.controller('CityCtrl', [ '$scope', 'cityService', function($scope, cityService) {
+	   $scope.cities = cityService.query();
    }
 ]);
