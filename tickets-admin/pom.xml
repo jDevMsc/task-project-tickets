@@ -16,7 +16,7 @@
     <dependency>
       <groupId>org.tickets</groupId>
       <artifactId>tickets-service</artifactId>
-      <version>${parent.version}</version>
+      <version>0.0.1</version>
     </dependency>
 		<dependency>
 			<groupId>org.primefaces</groupId>
@@ -34,6 +34,11 @@
 			<artifactId>cdi-api</artifactId>
 			<version>2.0-PFD2</version>
 		</dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.faces</artifactId>
+      <version>2.2.14</version>
+    </dependency>
 	</dependencies>
 
   <build>
