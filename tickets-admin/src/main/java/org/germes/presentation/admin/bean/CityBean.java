@@ -12,5 +12,16 @@ import org.tickets.germes.app.model.entity.geography.City;
 @ManagedBean(name="currentCity")
 @ViewScoped
 public class CityBean extends City {
+    public void clear() {
+        setName("");
+        setDistrict("");
+        setRegion("");
+    }
 
+    public void update(City city) {
+        setName(city.getName());
+        setDistrict(city.getDistrict());
+        setRegion(city.getRegion());
+        setId(city.getId());
+    }
 }

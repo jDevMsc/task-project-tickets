@@ -38,4 +38,8 @@ public interface GeographicService {
 	 * Removes all the cities
 	 */
 	void deleteCities();
+	/**
+	 * Delete city with specified identifier
+	 */
+	void deleteCity(int cityId);
 }
