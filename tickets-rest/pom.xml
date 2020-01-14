@@ -22,19 +22,19 @@
 	</dependencyManagement>
 	<dependencies>
 		<dependency>
-			<groupId>org.it-simulator</groupId>
-			<artifactId>germes-model</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>org.tickets</groupId>
+			<artifactId>tickets-model</artifactId>
+			<version>${parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.it-simulator</groupId>
-			<artifactId>germes-persistence</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>org.tickets</groupId>
+			<artifactId>tickets-persistence</artifactId>
+			<version>${parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.it-simulator</groupId>
-			<artifactId>germes-service</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>org.tickets</groupId>
+			<artifactId>tickets-service</artifactId>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>

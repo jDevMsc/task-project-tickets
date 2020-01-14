@@ -12,8 +12,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.tickets</groupId>
-			<artifactId>tickets-service</artifactId>
-			<version>${project.parent.version}</version>
+			<artifactId>tickets-rest</artifactId>
+			<version>${parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>

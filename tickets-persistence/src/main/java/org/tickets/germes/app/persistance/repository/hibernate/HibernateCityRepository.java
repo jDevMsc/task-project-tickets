@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.tickets.germes.app.infra.cdi.DBSource;
 import org.tickets.germes.app.model.entity.base.AbstractEntity;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.model.entity.geography.Station;
@@ -14,6 +15,7 @@ import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
 import org.tickets.germes.app.persistance.repository.CityRepository;
 
 @Named
+@DBSource
 public class HibernateCityRepository implements CityRepository {
 
 	private final SessionFactory sessionFactory;
