@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 import javax.annotation.PreDestroy;
+import javax.inject.Named;
 import javax.persistence.Entity;
 import javax.persistence.PersistenceException;
 import org.hibernate.SessionFactory;
@@ -22,6 +23,7 @@ import org.tickets.germes.app.persistance.hibernate.interceptor.TimestampInterce
 /**
  * For managing Hibernate session factory
  */
+@Named
 public class SessionFactoryBuilder {
 	private final SessionFactory sessionFactory;
 

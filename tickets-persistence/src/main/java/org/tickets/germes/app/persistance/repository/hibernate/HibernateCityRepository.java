@@ -2,6 +2,7 @@ package org.tickets.germes.app.persistance.repository.hibernate;
 
 import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +13,7 @@ import org.tickets.germes.app.model.entity.geography.Station;
 import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
 import org.tickets.germes.app.persistance.repository.CityRepository;
 
+@Named
 public class HibernateCityRepository implements CityRepository {
 
 	private final SessionFactory sessionFactory;

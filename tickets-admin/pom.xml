@@ -8,18 +8,20 @@
 		<artifactId>tickets</artifactId>
 		<version>0.0.1</version>
 	</parent>
+  <packaging>war</packaging>
 	<artifactId>tickets-admin</artifactId>
 
 	<dependencies>
+
+    <dependency>
+      <groupId>org.tickets</groupId>
+      <artifactId>tickets-service</artifactId>
+      <version>${parent.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>6.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.faces</artifactId>
-			<version>2.2.14</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -34,14 +36,30 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.3.1.v20150714</version>
-			</plugin>
-		</plugins>
-	</build>
-
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>9.3.15.v20161220</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+            <version>2.4.1.Final</version>
+          </dependency>
+          <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.3.15.v20161220</version>
+          </dependency>
+          <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>2.2.14</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 </project>

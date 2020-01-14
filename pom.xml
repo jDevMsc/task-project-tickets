@@ -12,6 +12,7 @@
     <module>tickets-persistence</module>
     <module>tickets-service</module>
     <module>tickets-admin</module>
+    <module>tickets-rest</module>
   </modules>
 
   <properties>

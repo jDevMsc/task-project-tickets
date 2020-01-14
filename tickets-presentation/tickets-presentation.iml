@@ -25,7 +25,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="tickets-service" />
+    <orderEntry type="library" name="Maven: org.tickets:tickets-service:0.0.1" level="project" />
     <orderEntry type="module" module-name="tickets-model" />
     <orderEntry type="module" module-name="tickets-persistence" />
     <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.4.0-b31" level="project" />
