@@ -4,23 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import org.tickets.germes.app.model.entity.geography.City;
 import org.tickets.germes.app.service.GeographicService;
 
 @Named
-@RequestScoped
+@ApplicationScoped
 /**
  * Managed bean that keeps all the cities for the main page
  */
-public class CitiesBean {
+public class CityController {
     private final GeographicService geographicService;
     @Inject
-    public CitiesBean(GeographicService geographicService) {
+    public CityController(GeographicService geographicService) {
         this.geographicService = geographicService;
     }
 
     public List<City> getCities() {
         return geographicService.findCities();
+    }
+
+    public void saveCity(CityBean cityBean) {
+        City city = new City();
+        city.setName(cityBean.getName());
+        city.setRegion(cityBean.getRegion());
+        city.setDistrict(cityBean.getDistrict());
+        geographicService.saveCity(city);
     }
 }
