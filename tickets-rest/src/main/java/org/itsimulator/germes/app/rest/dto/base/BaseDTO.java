@@ -5,7 +5,7 @@ import org.tickets.germes.app.model.entity.base.AbstractEntity;
 /**
  * Base class for all DTO classes
  */
-public abstract class BaseDTO<T extends AbstractEntity> {
+public abstract class BaseDTO<T extends AbstractEntity> implements Transformable<T>{
 	/**
 	 * Unique entity identifier
 	 */

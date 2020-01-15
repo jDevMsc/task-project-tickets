@@ -15,9 +15,12 @@ import org.tickets.germes.app.service.GeographicService;
  */
 public class CityController {
     private final GeographicService geographicService;
+    private final Transformer transformer;
     @Inject
-    public CityController(GeographicService geographicService) {
+    public CityController(GeographicService geographicService,
+        Transformer transformer) {
         this.geographicService = geographicService;
+        this.transformer = transformer;
     }
 
     public List<City> getCities() {
@@ -25,13 +28,14 @@ public class CityController {
     }
 
     public void saveCity(CityBean cityBean) {
-        City city = new City();
-        city.setName(cityBean.getName());
-        city.setRegion(cityBean.getRegion());
-        city.setDistrict(cityBean.getDistrict());
-        city.setId(cityBean.getId());
+        City city = transformer.untransform(cityBean, City.class);
         geographicService.saveCity(city);
     }
+
+    public void update(City city, CityBean cityBean) {
+        transformer.transform(city, cityBean);
+    }
+
     public void delete(int cityId) {
         geographicService.deleteCity(cityId);
     }
