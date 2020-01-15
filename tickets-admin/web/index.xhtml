@@ -3,6 +3,7 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <h:outputStylesheet library="css" name="main.css"  />
     <title>Germes application</title>
 </h:head>
 <h:body>
@@ -13,7 +14,7 @@
 
     <div style="text-align: center">
         <p:panel header="Cities"
-                 style="width:600px;margin-left:auto;margin-right:auto">
+                 styleClass="cities">
             <p:dataTable var="city" value="#{cityController.cities}"
                          id="citiesTable">
                 <p:column headerText="Name" sortBy="#{city.name}">
@@ -33,7 +34,7 @@
                                      actionListener="#{cityController.delete(city.id)}" />
                 </p:column>
                 <f:facet name="footer">
-                    <div style="margin-top: 20px; text-align: right">
+                    <div class="button">
                         <p:commandButton value="Add city"
                                          actionListener="#{currentCity.clear()}"
                                          oncomplete="PF('cityDlg').show();" update=":cityForm:cityDialog" />
