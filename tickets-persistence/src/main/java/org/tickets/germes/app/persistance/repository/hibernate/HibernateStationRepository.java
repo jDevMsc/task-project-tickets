@@ -14,28 +14,20 @@ import org.tickets.germes.app.model.search.criteria.StationCriteria;
 import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
 import org.tickets.germes.app.persistance.repository.StationRepository;
 
-@Named
-public class HibernateStationRepository implements StationRepository {
-
-    private final SessionFactory sessionFactory;
+public class HibernateStationRepository extends BaseHibernateRepository implements StationRepository {
 
     @Inject
     public HibernateStationRepository(SessionFactoryBuilder builder) {
-        sessionFactory = builder.getSessionFactory();
+        super(builder);
     }
 
     @Override
     public List<Station> findAllByCriteria(StationCriteria stationCriteria) {
-        try (Session session = sessionFactory.openSession()) {
+        return query(session -> {
             Criteria criteria = session.createCriteria(Station.class);
 
-            /**
-             * check if the type of transport specified for filtering
-             * add to Criteria then in Restriction
-             */
             if (stationCriteria.getTransportType() != null) {
-                criteria.add(Restrictions
-                    .eq(Station.FIELD_TRANSPORT_TYPE, stationCriteria.getTransportType()));
+                criteria.add(Restrictions.eq(Station.FIELD_TRANSPORT_TYPE, stationCriteria.getTransportType()));
             }
 
             if (!StringUtils.isEmpty(stationCriteria.getName())) {
@@ -44,7 +36,9 @@ public class HibernateStationRepository implements StationRepository {
             }
 
             return criteria.list();
-        }
+
+        });
     }
 
 }
+

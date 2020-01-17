@@ -2,6 +2,8 @@ package org.germes.presentation.admin.bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.enterprise.context.ApplicationScoped;
@@ -38,5 +40,11 @@ public class CityController {
 
     public void delete(int cityId) {
         geographicService.deleteCity(cityId);
+    }
+
+    /**
+     * Subscribe for event
+     */
+    public void init(@Observes @Initialized(ApplicationScoped.class) Object event) {
     }
 }

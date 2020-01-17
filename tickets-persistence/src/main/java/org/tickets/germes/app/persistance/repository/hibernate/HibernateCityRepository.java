@@ -7,6 +7,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tickets.germes.app.infra.cdi.DBSource;
 import org.tickets.germes.app.model.entity.base.AbstractEntity;
 import org.tickets.germes.app.model.entity.geography.City;
@@ -14,99 +16,62 @@ import org.tickets.germes.app.model.entity.geography.Station;
 import org.tickets.germes.app.persistance.hibernate.SessionFactoryBuilder;
 import org.tickets.germes.app.persistance.repository.CityRepository;
 
-@Named
+amed
 @DBSource
-public class HibernateCityRepository implements CityRepository {
-
-	private final SessionFactory sessionFactory;
+public class HibernateCityRepository extends BaseHibernateRepository implements CityRepository {
+	private static final Logger LOGGER = LoggerFactory.getLogger(HibernateCityRepository.class);
 
 	@Inject
 	public HibernateCityRepository(SessionFactoryBuilder builder) {
-		sessionFactory = builder.getSessionFactory();
+		super(builder);
 	}
 
 	@Override
 	public void save(City city) {
-		Transaction tx = null;
-		try (Session session = sessionFactory.openSession()) {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(city);
-			tx.commit();
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage() + " " + ex);
-			if (tx != null) {
-				tx.rollback();
-			}
-		}
+		execute(session -> session.saveOrUpdate(city));
 	}
-
-	@Override
-	public void saveAll(List<City> cities) {
-		int batchSize = sessionFactory.getSessionFactoryOptions().getJdbcBatchSize();
-		try (Session session = sessionFactory.openSession()) {
-			Transaction tx = null;
-			try {
-				tx = session.beginTransaction();
-				for (int i = 0; i < cities.size(); i++) {
-					session.persist(cities.get(i));
-					if (i % batchSize == 0 || i == cities.size() - 1) {
-						session.flush();
-						session.clear();
-					}
-				}
-				tx.commit();
-			} catch (Exception ex) {
-				System.out.println(ex.getMessage() + " " + ex);
-				if (tx != null) {
-					tx.rollback();
-				}
-			}
-		}
-	}
-
 
 	@Override
 	public City findById(int cityId) {
-		try (Session session = sessionFactory.openSession()) {
-			return session.get(City.class, cityId);
-		}
+		return query(session -> session.get(City.class, cityId));
 	}
 
 	@Override
 	public void delete(int cityId) {
-		try (Session session = sessionFactory.openSession()) {
+		execute(session -> {
 			City city = session.get(City.class, cityId);
 			if (city != null) {
 				session.delete(city);
 			}
-		}
+		});
 	}
 
 	@Override
 	public List<City> findAll() {
-		try (Session session = sessionFactory.openSession()) {
-			return session.createCriteria(City.class).list();
-		}
+		return query(session -> session.createNamedQuery(City.QUERY_FIND_ALL, City.class).list());
 	}
 
 	@Override
 	public void deleteAll() {
-		try (Session session = sessionFactory.openSession()) {
-			Transaction tx = null;
-			try {
-				tx = session.beginTransaction();
-				Query stationQuery = session.getNamedQuery(Station.QUERY_DELETE_ALL);
-				stationQuery.executeUpdate();
-				Query query = session.getNamedQuery(City.QUERY_DELETE_ALL);
-				int deleted = query.executeUpdate();
-				System.out.printf("Deleted %d cities", deleted);
-				tx.commit();
-			} catch (Exception ex) {
-				System.out.println(ex.getMessage() + " " + ex);
-				if (tx != null) {
-					tx.rollback();
+		execute(session -> {
+			session.createNamedQuery(Station.QUERY_DELETE_ALL).executeUpdate();
+			int deleted = session.getNamedQuery(City.QUERY_DELETE_ALL).executeUpdate();
+			LOGGER.debug("Deleted {} cities", deleted);
+		});
+	}
+
+	@Override
+	public void saveAll(List<City> cities) {
+		int batchSize = getBatchSize();
+		execute(session -> {
+			for (int i = 0; i < cities.size(); i++) {
+				session.persist(cities.get(i));
+				if (i % batchSize == 0 || i == cities.size() - 1) {
+					session.flush();
+					session.clear();
 				}
 			}
-		}
+		});
 	}
+
 }

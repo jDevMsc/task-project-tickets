@@ -13,11 +13,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 import org.reflections.Reflections;
-import org.tickets.germes.app.model.entity.geography.Address;
-import org.tickets.germes.app.model.entity.geography.City;
-import org.tickets.germes.app.model.entity.geography.Coordinate;
-import org.tickets.germes.app.model.entity.geography.Station;
-import org.tickets.germes.app.model.entity.person.Account;
 import org.tickets.germes.app.persistance.hibernate.interceptor.TimestampInterceptor;
 
 /**
@@ -34,7 +29,7 @@ public class SessionFactoryBuilder {
 		MetadataSources sources = new MetadataSources(registry);
 		
 		//define the base package for search and set search criteria
-		Reflections reflections = new Reflections("org.itsimulator.germes.app.model.entity");
+		Reflections reflections = new Reflections("org.tickets.germes.app.model.entity");
 
 		Set<Class<?>> entityClasses = reflections.getTypesAnnotatedWith(Entity.class);
 		entityClasses.forEach(sources::addAnnotatedClass);
