@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import org.tickets.germes.app.infra.cdi.DBSource;
+import org.tickets.germes.app.infra.util.SecurityUtil;
 import org.tickets.germes.app.model.entity.person.User;
 import org.tickets.germes.app.persistance.UserRepository;
 import org.tickets.germes.app.service.UserService;
@@ -13,6 +14,11 @@ public class UserServiceImpl implements UserService {
     @Inject
     public UserServiceImpl(@DBSource UserRepository userRepository) {
         this.userRepository = userRepository;
+
+        User user = new User();
+        user.setUserName("guest");
+        user.setPassword(SecurityUtil.encryptSHA("guest"));
+        userRepository.save(user);
     }
 
     @Override
