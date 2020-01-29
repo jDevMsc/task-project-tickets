@@ -3,12 +3,27 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.tickets</groupId>
 		<artifactId>tickets</artifactId>
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>tickets-rest</artifactId>
+
+	<properties>
+		<jersey.scope>compile</jersey.scope>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>glassfish</id>
+			<properties>
+				<jersey.scope>provided</jersey.scope>
+			</properties>
+		</profile>
+	</profiles>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -20,6 +35,9 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.tickets</groupId>
@@ -44,10 +62,12 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
+			<scope>${jersey.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
+			<scope>${jersey.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.test-framework</groupId>
@@ -58,6 +78,16 @@
 			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
 			<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<scope>${jersey.scope}</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<scope>${jersey.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -115,7 +145,17 @@
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jersey2-jaxrs</artifactId>
-			<version>1.5.10</version>
+			<version>1.5.16</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.glassfish.jersey.containers</groupId>
+					<artifactId>jersey-container-servlet-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.jersey.media</groupId>
+					<artifactId>jersey-media-multipart</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 	</dependencies>

@@ -1,0 +1,1 @@
+RUN /opt/jboss/wildfly/bin/add-user.sh admin admin --silent

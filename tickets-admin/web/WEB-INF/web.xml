@@ -50,4 +50,10 @@
     <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
     <param-value>true</param-value>
   </context-param>
+
+  <!-- for wildfly -->
+  <context-param>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+  </context-param>
 </web-app>
