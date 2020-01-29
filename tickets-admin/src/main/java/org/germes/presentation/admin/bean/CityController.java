@@ -32,6 +32,7 @@ public class CityController {
     public void saveCity(CityBean cityBean) {
         City city = transformer.untransform(cityBean, City.class);
         geographicService.saveCity(city);
+        cityChannel.send("test");
     }
 
     public void update(City city, CityBean cityBean) {

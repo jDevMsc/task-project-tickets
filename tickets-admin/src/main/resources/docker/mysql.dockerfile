@@ -10,4 +10,4 @@ RUN service mysql start && \
    mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'germes'@'%' identified by 'germes';" && \
    mysql -uroot -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL ON germes.* TO 'germes'@'%' ; FLUSH PRIVILEGES"
 
-ADD germes-admin/src/main/resources/docker/grant.sql /docker-entrypoint-initdb.d/
+ADD src/main/resources/docker/grant.sql /docker-entrypoint-initdb.d/
