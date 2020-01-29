@@ -30,6 +30,7 @@
 				<version>2.6</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<warName>client</warName>
 				</configuration>
 			</plugin>
 			<plugin>
